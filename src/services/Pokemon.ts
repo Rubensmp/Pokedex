@@ -17,7 +17,7 @@ export async function listPokemons(): Promise<ListPokemonInterface> {
   }
 }
 
-export async function getPokemonDetails(name: string): Promise<PokemonDetail> {
+export async function getPokemonDetails(name: string | undefined): Promise<PokemonDetail> {
   const endpoint = `${process.env.REACT_APP_POKEAPI}/pokemon/${name}`
 
   const response = await axios.get<PokemonDetail>(endpoint);

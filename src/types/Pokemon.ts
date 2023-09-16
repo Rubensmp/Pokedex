@@ -1,7 +1,7 @@
-export interface PokemonListInterface {
-  name: string;
-  url: string;
-}
+// export interface PokemonListInterface {
+//   name: string;
+//   url: string;
+// }
 
 export interface ListPokemonInterface {
   count: number;
