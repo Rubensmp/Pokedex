@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { getPokemonDetails } from '../../services/Pokemon';
-import { PokemonDetail } from '../../types/Pokemon';
+
 import { useParams } from 'react-router-dom';
 import { useQuery } from 'react-query';
 
@@ -18,7 +18,10 @@ const PokemonDetails: React.FC = () => {
       {!isLoading ? (
         <div>
           <h1>{name}</h1>
-          <img src={data?.sprites.front_default} alt='Pokemon front' />
+          <img
+            src={data?.sprites.other?.['official-artwork'].front_default}
+            alt='Pokemon front'
+          />
           <p>{JSON.stringify(data, undefined, 2)}</p>
         </div>
       ) : (
