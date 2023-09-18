@@ -11,12 +11,12 @@ interface CardPokedexProps {
 const CardPokedex: React.FC<CardPokedexProps> = ({ data }) => {
   const navigate = useNavigate();
 
-  function handlePokemonClick(pokemon: PokemonDetail) {
+  function handlePokemonClick() {
     navigate(`/pokemon/${data.name}`);
   }
 
   return (
-    <Container onClick={() => handlePokemonClick(data)}>
+    <Container onClick={() => handlePokemonClick()}>
       <Content>
         <Id>{`# ${data.id}`}</Id>
         <Sprite

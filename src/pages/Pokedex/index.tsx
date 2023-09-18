@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-import { getPokemonDetails, listPokemons } from '../../services/Pokemon';
+import { listPokemons } from '../../services/Pokemon';
 import { PokemonDetail } from '../../types/Pokemon';
-import { useNavigate } from 'react-router-dom';
 import { useQuery } from 'react-query';
 import {
   Input,
@@ -9,13 +8,12 @@ import {
   Button,
   InputGroup,
   Container,
-  Center,
-  Flex,
   Heading,
+  Flex,
 } from '@chakra-ui/react';
 import { SmallCloseIcon, SearchIcon } from '@chakra-ui/icons';
 import { CardPokedex } from '../../components';
-// import { Container } from './styles';
+import { Search } from './components';
 
 const Pokedex: React.FC = () => {
   const [page, setPage] = useState<number>(0);
@@ -28,18 +26,16 @@ const Pokedex: React.FC = () => {
     keepPreviousData: true,
   });
 
-  const search = useQuery(`getPokemonDetails_${filter}`, () =>
-    getPokemonDetails(filter)
-  );
+  const isSearching = filter !== '';
 
   return (
-    <Center bg={'#dc0a2d'} padding='0 10px'>
+    <Flex bg={'#dc0a2d'} padding='0 10px' minH='100vh'>
       <Container maxW='container.lg'>
         <div>
           <Heading color='#FFF' padding='20px 0'>
             Pokedex
           </Heading>
-          <Flex>
+          <Flex justifyContent='flex-start'>
             <InputGroup size='md'>
               <Input
                 pr='4.5rem'
@@ -76,51 +72,47 @@ const Pokedex: React.FC = () => {
               <SearchIcon />
             </Button>
           </Flex>
-          {/* <button onClick={() => setFilter(input)}>Pesquisar</button>
-          <button onClick={() => setFilter('')}>Apagar</button> */}
-          {filter !== '' ? (
-            <div>{JSON.stringify(search.data, undefined, 2)}</div>
+
+          {isSearching ? (
+            <Search filter={filter} />
           ) : (
-            <Flex
-              wrap='wrap'
-              justifyContent='center'
-              gap='10px'
-              margin='20px 0'
-            >
-              {data?.results.map((pokemon: PokemonDetail) => (
-                <CardPokedex
-                  key={pokemon.id}
-                  data={pokemon}
-                  // onClick={() => handlePokemonClick(pokemon)}
-                />
-              ))}
-            </Flex>
+            <>
+              <Flex
+                wrap='wrap'
+                justifyContent='center'
+                gap='10px'
+                margin='20px 0'
+              >
+                {data?.results.map((pokemon: PokemonDetail) => (
+                  <CardPokedex key={pokemon.id} data={pokemon} />
+                ))}
+              </Flex>
+              <div>
+                <button
+                  onClick={() => {
+                    if (page > 0) {
+                      setPage(page - 1);
+                    }
+                  }}
+                  disabled={page === 0}
+                >
+                  Anterior
+                </button>
+
+                <button
+                  onClick={() => {
+                    setPage(page + 1);
+                  }}
+                  disabled={page === Math.ceil(1281 / 20)}
+                >
+                  próximo
+                </button>
+              </div>
+            </>
           )}
-
-          <div>
-            <button
-              onClick={() => {
-                if (page > 0) {
-                  setPage(page - 1);
-                }
-              }}
-              disabled={page === 0}
-            >
-              Anterior
-            </button>
-
-            <button
-              onClick={() => {
-                setPage(page + 1);
-              }}
-              disabled={page === Math.ceil(1281 / 20)}
-            >
-              próximo
-            </button>
-          </div>
         </div>
       </Container>
-    </Center>
+    </Flex>
   );
 };
 
