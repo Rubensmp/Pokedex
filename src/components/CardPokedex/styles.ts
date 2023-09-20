@@ -43,9 +43,8 @@ export const Overlay = styled.div`
   top: 120%;
   left: 50%;
   width: 120%;
-  opacity: 0.3;
+  opacity: 0.2;
   height: 120%;
-  background: blue;
   position: absolute;
   border-radius: 90px;
   background: #1A1A1A;

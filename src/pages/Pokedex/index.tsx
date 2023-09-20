@@ -82,7 +82,7 @@ const Pokedex: React.FC = () => {
               </Button>
             </Flex>
 
-            {isSearching && filter.length > 2 ? (
+            {isSearching ? (
               <Search filter={filter} />
             ) : (
               <>
