@@ -10,20 +10,25 @@ import {
   Container,
   Heading,
   Flex,
+  Center,
+  CircularProgress,
 } from '@chakra-ui/react';
 import { SmallCloseIcon, SearchIcon } from '@chakra-ui/icons';
 import { CardPokedex } from '../../components';
 import { Search } from './components';
+import { InView } from 'react-intersection-observer';
 
 const Pokedex: React.FC = () => {
   const [page, setPage] = useState<number>(0);
+  const [pokemons, setPokemons] = useState<PokemonDetail[]>([]);
   const [input, setInput] = useState<string>('');
   const [filter, setFilter] = useState<string>('');
 
-  const { data } = useQuery({
+  const { isFetching, isLoading } = useQuery({
     queryKey: ['listPokemons', page],
     queryFn: () => listPokemons(page),
     keepPreviousData: true,
+    onSuccess: (data) => setPokemons([...pokemons, ...data.results]),
   });
 
   const isSearching = filter !== '';
@@ -83,31 +88,22 @@ const Pokedex: React.FC = () => {
                 gap='10px'
                 margin='20px 0'
               >
-                {data?.results.map((pokemon: PokemonDetail) => (
+                {pokemons.map((pokemon: PokemonDetail) => (
                   <CardPokedex key={pokemon.id} data={pokemon} />
                 ))}
               </Flex>
-              <div>
-                <button
-                  onClick={() => {
-                    if (page > 0) {
-                      setPage(page - 1);
-                    }
-                  }}
-                  disabled={page === 0}
-                >
-                  Anterior
-                </button>
 
-                <button
-                  onClick={() => {
-                    setPage(page + 1);
-                  }}
-                  disabled={page === Math.ceil(1281 / 20)}
-                >
-                  próximo
-                </button>
-              </div>
+              {(isFetching || isLoading) && (
+                <Center p={10}>
+                  <CircularProgress isIndeterminate color='#FFF' />
+                </Center>
+              )}
+
+              {!isLoading && (
+                <InView as='div' onChange={() => setPage(page + 1)}>
+                  <div style={{ height: 20, width: 20 }}></div>
+                </InView>
+              )}
             </>
           )}
         </div>

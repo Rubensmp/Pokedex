@@ -17,8 +17,10 @@ import {
   HStack,
   Icon,
   Progress,
+  CircularProgress,
   Container,
 } from '@chakra-ui/react';
+
 import { ArrowBackIcon } from '@chakra-ui/icons';
 import typeColors from '../../utils/typeColors';
 import { LiaRulerVerticalSolid, LiaWeightHangingSolid } from 'react-icons/lia';
@@ -46,7 +48,11 @@ const PokemonDetails: React.FC = () => {
       p='5px'
     >
       <Container maxW='container.sm' minH={'100vh'}>
-        {!isLoading ? (
+        {isLoading ? (
+          <Center>
+            <CircularProgress isIndeterminate color={primaryColor} />
+          </Center>
+        ) : (
           <>
             <Flex
               alignItems='center'
@@ -181,7 +187,7 @@ const PokemonDetails: React.FC = () => {
                           value={stat.base_stat}
                           max={255}
                           borderRadius='20px'
-                          size='xs'
+                          size='sm'
                           width={'100%'}
                         />
                       </Flex>
@@ -191,8 +197,6 @@ const PokemonDetails: React.FC = () => {
               </HStack>
             </VStack>
           </>
-        ) : (
-          <div>Loading...</div>
         )}
       </Container>
     </Flex>

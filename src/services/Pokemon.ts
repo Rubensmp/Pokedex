@@ -4,7 +4,7 @@ import { ListPokemonInterface, PokemonDetail } from "../types/Pokemon";
 
 
 export async function listPokemons(page: number): Promise<ListPokemonInterface> {
-  const endpoint =  `${process.env.REACT_APP_POKEAPI}/pokemon?limit=20&offset=${page*20}}`
+  const endpoint =  `${process.env.REACT_APP_POKEAPI}/pokemon?limit=20&offset=${page*20}`
 
   const response = await axios.get<ListPokemonInterface>(endpoint);
 
