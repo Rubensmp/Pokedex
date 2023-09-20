@@ -10,7 +10,7 @@ interface SearchProps {
 }
 
 const Search: React.FC<SearchProps> = ({ filter }) => {
-  const debouncedValue = useDebounce<string>(filter, 1000);
+  const debouncedValue = useDebounce(filter, 1000);
 
   const { data, isLoading } = useQuery(
     `getPokemonDetails_${debouncedValue.toLowerCase()}`,
