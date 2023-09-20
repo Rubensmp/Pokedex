@@ -13,7 +13,7 @@ import {
   Center,
   CircularProgress,
 } from '@chakra-ui/react';
-import { SmallCloseIcon, SearchIcon } from '@chakra-ui/icons';
+import { SmallCloseIcon } from '@chakra-ui/icons';
 import { CardPokedex } from '../../components';
 import { Search } from './components';
 import { InView } from 'react-intersection-observer';
@@ -21,7 +21,6 @@ import { InView } from 'react-intersection-observer';
 const Pokedex: React.FC = () => {
   const [page, setPage] = useState<number>(0);
   const [pokemons, setPokemons] = useState<PokemonDetail[]>([]);
-  const [input, setInput] = useState<string>('');
   const [filter, setFilter] = useState<string>('');
 
   const { isFetching, isLoading } = useQuery({
@@ -45,21 +44,20 @@ const Pokedex: React.FC = () => {
               <Input
                 pr='4.5rem'
                 placeholder='Procurar'
-                onChange={(e) => setInput(e.target.value)}
-                value={input}
+                onChange={(e) => setFilter(e.target.value)}
+                value={filter}
                 borderRadius='20'
                 bg='#FFF'
                 focusBorderColor='#b20320'
               />
               <InputRightElement width='6rem' justifyContent={'flex-end'}>
-                {input !== '' && (
+                {filter !== '' && (
                   <Button
                     h='1.75rem'
                     size='sm'
                     mr={1}
                     onClick={() => {
                       setFilter('');
-                      setInput('');
                     }}
                     borderRadius={'20'}
                   >
@@ -71,10 +69,10 @@ const Pokedex: React.FC = () => {
             <Button
               ml={2}
               size='md'
-              onClick={() => setFilter(input)}
+              onClick={() => setFilter(filter)}
               borderRadius={'20'}
             >
-              <SearchIcon />
+              #
             </Button>
           </Flex>
 

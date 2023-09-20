@@ -3,14 +3,18 @@ import { useQuery } from 'react-query';
 import { getPokemonDetails } from '../../../../services/Pokemon';
 import { CardPokedex } from '../../../../components';
 import { Center, CircularProgress } from '@chakra-ui/react';
+import useDebounce from '../../../../hooks/useDebounce';
 
 interface SearchProps {
   filter: string;
 }
 
 const Search: React.FC<SearchProps> = ({ filter }) => {
-  const { data, isLoading } = useQuery(`getPokemonDetails_${filter}`, () =>
-    getPokemonDetails(filter)
+  const debouncedValue = useDebounce<string>(filter, 1000);
+
+  const { data, isLoading } = useQuery(
+    `getPokemonDetails_${debouncedValue.toLowerCase()}`,
+    () => getPokemonDetails(debouncedValue.toLowerCase())
   );
 
   if (isLoading) {
